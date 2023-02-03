@@ -1,2 +1,5 @@
 .idea
+__pycache__
 xmath/__pycache__
+xfile/__pycache__
+ximage/__pycache__
