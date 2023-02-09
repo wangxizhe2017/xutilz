@@ -9,7 +9,7 @@ class StatDict(dict):
                 self[key] = dct[key]
 
     def sort(self, reverse=False):
-        return dict(sorted(self.items(), reverse=reverse))
+        return self.__class__(dct=dict(sorted(self.items(), reverse=reverse)))
 
     def __setitem__(self, key, value):
         assert isinstance(value, int)
