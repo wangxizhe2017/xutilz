@@ -64,6 +64,12 @@ class IntList(list):
                 self.remove(key)
         return self
 
+    def __rsub__(self, max_idx):
+        """An integer subs a int_list"""
+        assert isinstance(max_idx, int) and max(self) < max_idx
+        complete_list = self.__class__(lst=list(range(max_idx)))
+        return complete_list - self
+
     @property
     def len(self) -> int:
         return len(self)

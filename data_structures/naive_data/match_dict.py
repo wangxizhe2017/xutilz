@@ -30,7 +30,7 @@ class MatchDict(dict):
         return match_dict
 
     @property
-    def union(self) -> IntList:
+    def self_union(self) -> IntList:
         union_list = IntList()
         for i, key in enumerate(self):
             if i == 0:
@@ -39,11 +39,21 @@ class MatchDict(dict):
                 union_list += self[key]
         return union_list
 
-    def intersection(self):
-        pass
+    @property
+    def self_intersection(self) -> IntList:
+        intersection_list = IntList()
+        for i, key in enumerate(self):
+            if i == 0:
+                intersection_list = dcp(self[key])
+            else:
+                intersection_list &= self[key]
+        return intersection_list
 
-    def complementary(self):
-        pass
+    # @property
+    # def self_complementary(self):
+    #     """The complementary set of its union set"""
+    #     complementary_list = IntList()
+    #     return complementary_list
 
     def __setitem__(self, key, value):
         assert isinstance(key, int) and isinstance(value, (list, IntList))
