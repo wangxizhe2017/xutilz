@@ -1,6 +1,9 @@
 .idea
+.benchmarks
+.pytest_cache
 __pycache__
 xmath/__pycache__
 xfile/__pycache__
 ximage/__pycache__
 data_structures/__pycache__
+t.py
