@@ -2,7 +2,7 @@ from copy import deepcopy as dcp
 
 
 from .stat_dict import StatDict
-from .int_list import IntList
+from .idx_list import IdxList
 
 
 class MatchDict(dict):
@@ -15,7 +15,7 @@ class MatchDict(dict):
     def to_stat_dict(self) -> StatDict:
         sdict = StatDict()
         for key in self:
-            sdict[key] = self[key]
+            sdict[key] = len(self[key])
         return sdict
 
     @property
@@ -25,13 +25,13 @@ class MatchDict(dict):
             idx_list = self[key]
             for idx in idx_list:
                 if idx not in match_dict:
-                    match_dict[idx] = IntList()
+                    match_dict[idx] = IdxList()
                 match_dict[idx].append(key)
         return match_dict
 
     @property
-    def self_union(self) -> IntList:
-        union_list = IntList()
+    def self_union(self) -> IdxList:
+        union_list = IdxList()
         for i, key in enumerate(self):
             if i == 0:
                 union_list = dcp(self[key])
@@ -40,8 +40,8 @@ class MatchDict(dict):
         return union_list
 
     @property
-    def self_intersection(self) -> IntList:
-        intersection_list = IntList()
+    def self_intersection(self) -> IdxList:
+        intersection_list = IdxList()
         for i, key in enumerate(self):
             if i == 0:
                 intersection_list = dcp(self[key])
@@ -52,9 +52,72 @@ class MatchDict(dict):
     # @property
     # def self_complementary(self):
     #     """The complementary set of its union set"""
-    #     complementary_list = IntList()
+    #     complementary_list = IdxList()
     #     return complementary_list
 
     def __setitem__(self, key, value):
-        assert isinstance(key, int) and isinstance(value, (list, IntList))
-        dict.__setitem__(self, key, IntList(value) if isinstance(value, list) else value)
+        assert isinstance(key, int) and isinstance(value, (IdxList, list))
+        dict.__setitem__(self, key, value if isinstance(value, IdxList) else IdxList(value))
+
+    # intersection of 2 match_dicts
+    def __and__(self, other):
+        assert isinstance(other, self.__class__)
+        m_dict = dcp(self)
+        for key in other:
+            if key not in m_dict:
+                m_dict[key] = dcp(other[key])
+            else:
+                m_dict[key] &= other[key]
+        return m_dict
+
+    # intersection of 2 match_dicts
+    def __iand__(self, other):
+        assert isinstance(other, self.__class__)
+        for key in other:
+            if key not in self:
+                self[key] = dcp(other[key])
+            else:
+                self[key] &= other[key]
+        return self
+
+    # union of 2 match_dicts
+    def __add__(self, other):
+        assert isinstance(other, self.__class__)
+        m_dict = dcp(self)
+        for key in other:
+            if key not in m_dict:
+                m_dict[key] = dcp(other[key])
+            else:
+                m_dict[key] += other[key]
+        return m_dict
+
+    # union of 2 match_dicts
+    def __iadd__(self, other):
+        assert isinstance(other, self.__class__)
+        for key in other:
+            if key not in self:
+                self[key] = dcp(other[key])
+            else:
+                self[key] += other[key]
+        return self
+
+    # remove intersection
+    def __sub__(self, other):
+        assert isinstance(other, self.__class__)
+        m_dict = dcp(self)
+        for key in other:
+            if key not in m_dict:
+                m_dict[key] = dcp(other[key])
+            else:
+                m_dict[key] -= other[key]
+        return m_dict
+
+    # remove intersection
+    def __isub__(self, other):
+        assert isinstance(other, self.__class__)
+        for key in other:
+            if key not in self:
+                self[key] = dcp(other[key])
+            else:
+                self[key] -= other[key]
+        return self
