@@ -12,6 +12,9 @@ class MatchDict(dict):
             for key in dct:
                 self[key] = dct[key]
 
+    def sort_by_key(self, reverse=False):
+        return self.__class__(dct=dict(sorted(self.items(), reverse=reverse)))
+
     def to_stat_dict(self) -> StatDict:
         sdict = StatDict()
         for key in self:

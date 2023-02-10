@@ -8,7 +8,7 @@ class StatDict(dict):
             for key in dct:
                 self[key] = dct[key]
 
-    def sort(self, reverse=False):
+    def sort_by_key(self, reverse=False):
         return self.__class__(dct=dict(sorted(self.items(), reverse=reverse)))
 
     def __setitem__(self, key, value):
