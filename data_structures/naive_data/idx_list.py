@@ -50,7 +50,7 @@ class IdxList(list):
                 self.append(key)
         return self
 
-    # remove
+    # remove intersection
     def __sub__(self, other):
         assert isinstance(other, self.__class__)
         i_list = dcp(self)
@@ -59,7 +59,7 @@ class IdxList(list):
                 i_list.remove(key)
         return i_list
 
-    # remove
+    # remove intersection
     def __isub__(self, other):
         assert isinstance(other, self.__class__)
         for key in other:
