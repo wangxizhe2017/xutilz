@@ -12,7 +12,7 @@ class StatDict(dict):
         return self.__class__(dct=dict(sorted(self.items(), reverse=reverse)))
 
     def __setitem__(self, key, value):
-        assert isinstance(value, int)
+        assert isinstance(value, (int, bytes, float))
         dict.__setitem__(self, key, value)
 
     def __add__(self, other):

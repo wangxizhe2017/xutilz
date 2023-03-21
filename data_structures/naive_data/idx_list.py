@@ -9,13 +9,11 @@ class IdxList(list):
                 self.append(value)
 
     # overwrite
-    def append(self, value: int) -> int:
+    def append(self, value: int):
+        """No duplicate"""
         assert isinstance(value, int)
         if value not in self:
             list.append(self, value)
-            return 1
-        print(f"{value} is already in, but it will not impact the program")
-        return 0
 
     # intersection
     def __and__(self, other):
