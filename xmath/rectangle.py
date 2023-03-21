@@ -95,6 +95,10 @@ class Rect:
     def area(self) -> float:
         return self._w * self._h
 
+    def __eq__(self, other):
+        assert isinstance(other, Rect)
+        return self.xywh == other.xywh
+
     # keys
     def is_pt_in(self, pt: list) -> bool:
         assert isinstance(pt, list) and len(pt) == 2 and \
