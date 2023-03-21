@@ -117,3 +117,6 @@ class Rect:
 
     def __str__(self):
         return f"{self.xywh}"
+
+    def __repr__(self):
+        return f"{self.xywh}"
